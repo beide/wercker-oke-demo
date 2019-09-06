@@ -6,6 +6,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: get-ip
+  namespace: ${NAMESPACE}
   labels:
     commit: ${WERCKER_GIT_COMMIT}
 spec:
