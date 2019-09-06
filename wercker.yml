@@ -40,6 +40,14 @@ deploy-to-kubernetes:
           mkdir $WERCKER_OUTPUT_DIR/kubernetes
           mv kubernetes_*.yml $WERCKER_OUTPUT_DIR/kubernetes
 
+     # `apply` is a good command to use here, as it'll create Kubernetes entities if they are missing.
+    - kubectl:
+        name: create a namepace to kubernetes
+        server: $OKE_MASTER
+        token: $OKE_TOKEN
+        insecure-skip-tls-verify: true
+        command: create ns ${NAMESPACE} 
+        
     # `apply` is a good command to use here, as it'll create Kubernetes entities if they are missing.
     - kubectl:
         name: create a secrect to kubernetes
@@ -48,13 +56,7 @@ deploy-to-kubernetes:
         insecure-skip-tls-verify: true
         command: create secret docker-registry ${OKE_IMAGESECRET} --docker-server=${DOCKER_REPO} --docker-username='${DOCKER_USERNAME}' --docker-password='${DOCKER_PASSWORD}' --docker-email='noreply@gmail.com' -n ${NAMESPACE} 
         
-    # `apply` is a good command to use here, as it'll create Kubernetes entities if they are missing.
-    - kubectl:
-        name: create a namepace to kubernetes
-        server: $OKE_MASTER
-        token: $OKE_TOKEN
-        insecure-skip-tls-verify: true
-        command: create ns ${NAMESPACE} 
+   
         
         
     # `apply` is a good command to use here, as it'll create Kubernetes entities if they are missing.
